@@ -1,0 +1,12 @@
+name: task_execution
+trigger: ITEM_VISIBLE(TASK)
+steps:
+  - name: start_working
+    agent: match_api
+  - name: implement
+    agent: task_squad
+  - name: verify
+    agent: testing_service
+  - name: submit
+    agent: submission_authority
+priority: 20

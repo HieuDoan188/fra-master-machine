@@ -1,0 +1,11 @@
+{
+  "item_id": "PI-LIVE-2",
+  "plan": {},
+  "checkpoint": {
+    "fix": "no patch for PI-LIVE-2",
+    "root_cause": "Queue consumer crashed fails on happy path"
+  },
+  "evidence": [],
+  "created_at": 1792218391.6706283,
+  "updated_at": 1792220102.6695142
+}

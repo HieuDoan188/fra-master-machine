@@ -1,0 +1,40 @@
+# Hidden Test Strategy — Phase 0 Deliverable 6
+# Nguồn: competition_assumptions + match_rules.yaml
+
+principles:
+  - mvs_is_minimum_only
+  - grader_has_hidden_tests
+  - grader_has_regression_tests
+  - grader_checks_behavior_not_implementation
+  - submission_is_final_and_irreversible
+
+required_test_types:
+  - happy_path
+  - negative
+  - boundary
+  - regression
+  - permission
+  - error_handling
+  - performance
+
+coverage_target:
+  min_threshold: 90
+  unit: percent
+  note: coverage < 90% => reject submission
+
+hidden_grader_guess_strategy:
+  - assume_inputs_outside_mvs_examples
+  - assume_edge_values_at_boundaries
+  - assume_empty_collections
+  - assume_null_or_missing_fields
+  - assume_duplicate_ids
+  - assume_unauthorized_access
+  - assume_concurrent_modifications
+  - assume_large_payloads
+
+evidence_requirements:
+  - mvs_test_output_log
+  - extra_test_output_log
+  - changed_files_diff
+  - rationale_per_change
+  - regression_check_result

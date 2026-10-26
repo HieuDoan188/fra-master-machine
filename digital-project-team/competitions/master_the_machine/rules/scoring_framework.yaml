@@ -1,0 +1,27 @@
+objective:
+
+  maximize_total_score: true
+
+constraints:
+
+  human_intervention_penalty: -50
+
+  item_submission_limit: 1
+
+weights:
+
+  correctness: high
+
+  deadline: high
+
+  speed: high
+
+  token_cost: medium
+
+score_formula:
+
+  expected_value:
+
+    score
+    * success_probability
+    * deadline_factor

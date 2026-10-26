@@ -1,0 +1,14 @@
+name: change_request
+trigger: ITEM_VISIBLE(CR)
+steps:
+  - name: start_working
+    agent: match_api
+  - name: implement
+    agent: cr_squad
+  - name: verify
+    agent: testing_service
+  - name: review
+    agent: review
+  - name: submit
+    agent: submission_authority
+priority: 50

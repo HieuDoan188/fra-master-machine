@@ -1,0 +1,49 @@
+match:
+  duration_minutes: 40
+
+system:
+  autonomous_operation: true
+
+human_intervention:
+  allowed: true
+  penalty_per_access: -50
+
+submission:
+  submit_before_start:
+    allowed: false
+
+  max_submission_per_item: 1
+
+  resubmit_after_accepted:
+    allowed: false
+
+verification:
+  mvs_required: true
+
+  hidden_tests_exist: true
+
+  recommendation:
+    test_beyond_mvs: true
+
+prioritization:
+  product_incident:
+    highest_priority: true
+
+deadline:
+  enforced: true
+
+  closed_item_submittable: false
+
+clock:
+  source: server_time
+
+scoring:
+  product_incident:
+    first: 100
+    second: 90
+    third: 75
+    others: 60
+    failed: 0
+
+authority:
+  final_source_of_truth: game_master

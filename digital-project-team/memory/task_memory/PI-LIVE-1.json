@@ -1,0 +1,11 @@
+{
+  "item_id": "PI-LIVE-1",
+  "plan": {},
+  "checkpoint": {
+    "fix": "no patch for PI-LIVE-1",
+    "root_cause": "Checkout latency spike fails on happy path"
+  },
+  "evidence": [],
+  "created_at": 1792218391.6289713,
+  "updated_at": 1792220102.5961578
+}

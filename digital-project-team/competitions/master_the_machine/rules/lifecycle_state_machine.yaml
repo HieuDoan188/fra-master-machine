@@ -1,0 +1,36 @@
+states:
+
+  - VISIBLE
+
+  - STARTED
+
+  - IMPLEMENTING
+
+  - VERIFYING
+
+  - READY_TO_SUBMIT
+
+  - SUBMITTED
+
+transitions:
+
+  VISIBLE:
+    - STARTED
+
+  STARTED:
+    - IMPLEMENTING
+
+  IMPLEMENTING:
+    - VERIFYING
+
+  VERIFYING:
+    - READY_TO_SUBMIT
+
+  READY_TO_SUBMIT:
+    - SUBMITTED
+
+forbidden:
+
+  - VISIBLE -> SUBMITTED
+  - VISIBLE -> VERIFYING
+  - STARTED -> SUBMITTED

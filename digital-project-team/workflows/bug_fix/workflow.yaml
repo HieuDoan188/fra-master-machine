@@ -1,0 +1,18 @@
+name: bug_fix
+trigger: ITEM_VISIBLE(BUG)
+steps:
+  - name: start_working
+    agent: match_api
+  - name: get_mvs
+    agent: match_api
+  - name: implement
+    agent: bug_squad
+  - name: verify
+    agent: testing_service
+  - name: coverage
+    agent: coverage
+  - name: review
+    agent: review
+  - name: submit
+    agent: submission_authority
+priority: 70

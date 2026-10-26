@@ -1,0 +1,16 @@
+[project]
+name = "digital-project-team"
+version = "0.1.0"
+description = "Digital Project Team OS - competition brain for Master The Machine"
+requires-python = ">=3.11"
+dependencies = [
+    "requests>=2.31",
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["core*", "agents*", "services*", "tools*", "integrations*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]

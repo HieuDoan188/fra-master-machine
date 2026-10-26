@@ -1,0 +1,20 @@
+name: product_incident
+trigger: PI_CREATED
+override: all
+steps:
+  - name: register
+    agent: incident_service
+  - name: investigate
+    agent: pi_squad.investigator
+  - name: root_cause
+    agent: pi_squad.root_cause
+  - name: fix
+    agent: pi_squad.commander
+  - name: validate
+    agent: pi_squad.validator
+  - name: verify
+    agent: testing_service
+  - name: submit
+    agent: submission_authority
+priority: 100
+mttr_target_seconds: 480

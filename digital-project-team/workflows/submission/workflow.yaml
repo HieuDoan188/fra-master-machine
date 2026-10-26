@@ -1,0 +1,11 @@
+name: submission
+trigger: READY_TO_SUBMIT
+steps:
+  - name: gate_check
+    agent: submission_authority
+  - name: submit_once
+    agent: submission_service
+constraints:
+  max_submission_per_item: 1
+  resubmit_after_accepted: false
+  submit_before_start: false

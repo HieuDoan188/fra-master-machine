@@ -1,0 +1,22 @@
+item_types:
+
+  TASK:
+    priority_base: 20
+    mvs: false
+    requires_start_working: true
+
+  CR:
+    priority_base: 50
+    mvs: true
+    requires_start_working: true
+
+  BUG:
+    priority_base: 70
+    mvs: true
+    requires_start_working: true
+
+  PI:
+    priority_base: 100
+    mvs: unknown
+    requires_start_working: true
+    preemptive: true

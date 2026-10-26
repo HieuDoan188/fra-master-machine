@@ -1,0 +1,1291 @@
+{
+  "decisions": [
+    {
+      "ts": 1792219974.604972,
+      "item_id": "BUG-001",
+      "decision": "START_WORKING",
+      "reason": "highest EV"
+    },
+    {
+      "ts": 1792219974.604976,
+      "item_id": "BUG-002",
+      "decision": "START_WORKING",
+      "reason": "highest EV"
+    },
+    {
+      "ts": 1792219974.6049788,
+      "item_id": "BUG-003",
+      "decision": "START_WORKING",
+      "reason": "highest EV"
+    },
+    {
+      "ts": 1792219978.2258363,
+      "item_id": "BUG-004",
+      "decision": "START_WORKING",
+      "reason": "highest EV"
+    },
+    {
+      "ts": 1792219978.2258403,
+      "item_id": "BUG-005",
+      "decision": "START_WORKING",
+      "reason": "highest EV"
+    },
+    {
+      "ts": 1792219978.2258432,
+      "item_id": "BUG-006",
+      "decision": "START_WORKING",
+      "reason": "highest EV"
+    },
+    {
+      "ts": 1792219982.0405464,
+      "item_id": "BUG-007",
+      "decision": "START_WORKING",
+      "reason": "highest EV"
+    },
+    {
+      "ts": 1792219982.0405521,
+      "item_id": "BUG-008",
+      "decision": "START_WORKING",
+      "reason": "highest EV"
+    },
+    {
+      "ts": 1792219982.040555,
+      "item_id": "BUG-009",
+      "decision": "START_WORKING",
+      "reason": "highest EV"
+    },
+    {
+      "ts": 1792219985.8738165,
+      "item_id": "BUG-010",
+      "decision": "START_WORKING",
+      "reason": "highest EV"
+    },
+    {
+      "ts": 1792219985.8738189,
+      "item_id": "BUG-011",
+      "decision": "START_WORKING",
+      "reason": "highest EV"
+    },
+    {
+      "ts": 1792219985.8738198,
+      "item_id": "BUG-012",
+      "decision": "START_WORKING",
+      "reason": "highest EV"
+    },
+    {
+      "ts": 1792219989.7131376,
+      "item_id": "BUG-013",
+      "decision": "START_WORKING",
+      "reason": "highest EV"
+    },
+    {
+      "ts": 1792219989.7131402,
+      "item_id": "BUG-014",
+      "decision": "START_WORKING",
+      "reason": "highest EV"
+    },
+    {
+      "ts": 1792219989.7131412,
+      "item_id": "BUG-015",
+      "decision": "START_WORKING",
+      "reason": "highest EV"
+    },
+    {
+      "ts": 1792219993.4295363,
+      "item_id": "BUG-016",
+      "decision": "START_WORKING",
+      "reason": "highest EV"
+    },
+    {
+      "ts": 1792219993.4295402,
+      "item_id": "BUG-017",
+      "decision": "START_WORKING",
+      "reason": "highest EV"
+    },
+    {
+      "ts": 1792219993.4295418,
+      "item_id": "BUG-018",
+      "decision": "START_WORKING",
+      "reason": "highest EV"
+    },
+    {
+      "ts": 1792219997.1075644,
+      "item_id": "BUG-019",
+      "decision": "START_WORKING",
+      "reason": "highest EV"
+    },
+    {
+      "ts": 1792219997.107568,
+      "item_id": "BUG-020",
+      "decision": "START_WORKING",
+      "reason": "highest EV"
+    },
+    {
+      "ts": 1792219997.10757,
+      "item_id": "BUG-021",
+      "decision": "START_WORKING",
+      "reason": "highest EV"
+    },
+    {
+      "ts": 1792220000.6853452,
+      "item_id": "BUG-022",
+      "decision": "START_WORKING",
+      "reason": "highest EV"
+    },
+    {
+      "ts": 1792220000.685348,
+      "item_id": "BUG-023",
+      "decision": "START_WORKING",
+      "reason": "highest EV"
+    },
+    {
+      "ts": 1792220000.6853492,
+      "item_id": "BUG-024",
+      "decision": "START_WORKING",
+      "reason": "highest EV"
+    },
+    {
+      "ts": 1792220004.047636,
+      "item_id": "BUG-025",
+      "decision": "START_WORKING",
+      "reason": "highest EV"
+    },
+    {
+      "ts": 1792220004.0476398,
+      "item_id": "BUG-026",
+      "decision": "START_WORKING",
+      "reason": "highest EV"
+    },
+    {
+      "ts": 1792220004.0476418,
+      "item_id": "BUG-027",
+      "decision": "START_WORKING",
+      "reason": "highest EV"
+    },
+    {
+      "ts": 1792220007.2777405,
+      "item_id": "BUG-028",
+      "decision": "START_WORKING",
+      "reason": "highest EV"
+    },
+    {
+      "ts": 1792220007.2777429,
+      "item_id": "BUG-029",
+      "decision": "START_WORKING",
+      "reason": "highest EV"
+    },
+    {
+      "ts": 1792220007.2777438,
+      "item_id": "BUG-030",
+      "decision": "START_WORKING",
+      "reason": "highest EV"
+    },
+    {
+      "ts": 1792220011.0704522,
+      "item_id": "BUG-031",
+      "decision": "START_WORKING",
+      "reason": "highest EV"
+    },
+    {
+      "ts": 1792220011.070456,
+      "item_id": "BUG-032",
+      "decision": "START_WORKING",
+      "reason": "highest EV"
+    },
+    {
+      "ts": 1792220011.0704582,
+      "item_id": "BUG-033",
+      "decision": "START_WORKING",
+      "reason": "highest EV"
+    },
+    {
+      "ts": 1792220014.7261007,
+      "item_id": "BUG-034",
+      "decision": "START_WORKING",
+      "reason": "highest EV"
+    },
+    {
+      "ts": 1792220014.7261055,
+      "item_id": "BUG-035",
+      "decision": "START_WORKING",
+      "reason": "highest EV"
+    },
+    {
+      "ts": 1792220014.7261071,
+      "item_id": "BUG-036",
+      "decision": "START_WORKING",
+      "reason": "highest EV"
+    },
+    {
+      "ts": 1792220018.2407258,
+      "item_id": "BUG-037",
+      "decision": "START_WORKING",
+      "reason": "highest EV"
+    },
+    {
+      "ts": 1792220018.2407293,
+      "item_id": "BUG-038",
+      "decision": "START_WORKING",
+      "reason": "highest EV"
+    },
+    {
+      "ts": 1792220018.2407308,
+      "item_id": "BUG-039",
+      "decision": "START_WORKING",
+      "reason": "highest EV"
+    },
+    {
+      "ts": 1792220021.9872184,
+      "item_id": "BUG-040",
+      "decision": "START_WORKING",
+      "reason": "highest EV"
+    },
+    {
+      "ts": 1792220021.987221,
+      "item_id": "BUG-041",
+      "decision": "START_WORKING",
+      "reason": "highest EV"
+    },
+    {
+      "ts": 1792220021.987222,
+      "item_id": "BUG-042",
+      "decision": "START_WORKING",
+      "reason": "highest EV"
+    },
+    {
+      "ts": 1792220025.4313052,
+      "item_id": "BUG-043",
+      "decision": "START_WORKING",
+      "reason": "highest EV"
+    },
+    {
+      "ts": 1792220025.4313085,
+      "item_id": "BUG-044",
+      "decision": "START_WORKING",
+      "reason": "highest EV"
+    },
+    {
+      "ts": 1792220025.43131,
+      "item_id": "BUG-045",
+      "decision": "START_WORKING",
+      "reason": "highest EV"
+    },
+    {
+      "ts": 1792220028.7299688,
+      "item_id": "BUG-046",
+      "decision": "START_WORKING",
+      "reason": "highest EV"
+    },
+    {
+      "ts": 1792220028.7299724,
+      "item_id": "BUG-047",
+      "decision": "START_WORKING",
+      "reason": "highest EV"
+    },
+    {
+      "ts": 1792220028.7299743,
+      "item_id": "BUG-048",
+      "decision": "START_WORKING",
+      "reason": "highest EV"
+    },
+    {
+      "ts": 1792220032.2894726,
+      "item_id": "BUG-049",
+      "decision": "START_WORKING",
+      "reason": "highest EV"
+    },
+    {
+      "ts": 1792220032.2894747,
+      "item_id": "BUG-050",
+      "decision": "START_WORKING",
+      "reason": "highest EV"
+    },
+    {
+      "ts": 1792220032.2900417,
+      "item_id": "BUG-051",
+      "decision": "START_WORKING",
+      "reason": "highest EV"
+    },
+    {
+      "ts": 1792220035.900952,
+      "item_id": "BUG-052",
+      "decision": "START_WORKING",
+      "reason": "highest EV"
+    },
+    {
+      "ts": 1792220035.900955,
+      "item_id": "BUG-053",
+      "decision": "START_WORKING",
+      "reason": "highest EV"
+    },
+    {
+      "ts": 1792220035.9009564,
+      "item_id": "BUG-054",
+      "decision": "START_WORKING",
+      "reason": "highest EV"
+    },
+    {
+      "ts": 1792220039.6936107,
+      "item_id": "BUG-055",
+      "decision": "START_WORKING",
+      "reason": "highest EV"
+    },
+    {
+      "ts": 1792220039.693615,
+      "item_id": "BUG-056",
+      "decision": "START_WORKING",
+      "reason": "highest EV"
+    },
+    {
+      "ts": 1792220039.6936164,
+      "item_id": "BUG-057",
+      "decision": "START_WORKING",
+      "reason": "highest EV"
+    },
+    {
+      "ts": 1792220043.3172016,
+      "item_id": "BUG-058",
+      "decision": "START_WORKING",
+      "reason": "highest EV"
+    },
+    {
+      "ts": 1792220043.3172052,
+      "item_id": "BUG-059",
+      "decision": "START_WORKING",
+      "reason": "highest EV"
+    },
+    {
+      "ts": 1792220043.317207,
+      "item_id": "BUG-060",
+      "decision": "START_WORKING",
+      "reason": "highest EV"
+    },
+    {
+      "ts": 1792220047.0743208,
+      "item_id": "BUG-061",
+      "decision": "START_WORKING",
+      "reason": "highest EV"
+    },
+    {
+      "ts": 1792220047.0743237,
+      "item_id": "BUG-062",
+      "decision": "START_WORKING",
+      "reason": "highest EV"
+    },
+    {
+      "ts": 1792220047.074325,
+      "item_id": "BUG-063",
+      "decision": "START_WORKING",
+      "reason": "highest EV"
+    },
+    {
+      "ts": 1792220051.0520647,
+      "item_id": "BUG-064",
+      "decision": "START_WORKING",
+      "reason": "highest EV"
+    },
+    {
+      "ts": 1792220051.0520678,
+      "item_id": "BUG-065",
+      "decision": "START_WORKING",
+      "reason": "highest EV"
+    },
+    {
+      "ts": 1792220051.0520692,
+      "item_id": "BUG-066",
+      "decision": "START_WORKING",
+      "reason": "highest EV"
+    },
+    {
+      "ts": 1792220054.8512971,
+      "item_id": "BUG-067",
+      "decision": "START_WORKING",
+      "reason": "highest EV"
+    },
+    {
+      "ts": 1792220054.8513002,
+      "item_id": "BUG-068",
+      "decision": "START_WORKING",
+      "reason": "highest EV"
+    },
+    {
+      "ts": 1792220054.8513014,
+      "item_id": "BUG-069",
+      "decision": "START_WORKING",
+      "reason": "highest EV"
+    },
+    {
+      "ts": 1792220058.8486753,
+      "item_id": "BUG-070",
+      "decision": "START_WORKING",
+      "reason": "highest EV"
+    },
+    {
+      "ts": 1792220058.848679,
+      "item_id": "BUG-071",
+      "decision": "START_WORKING",
+      "reason": "highest EV"
+    },
+    {
+      "ts": 1792220058.8486807,
+      "item_id": "BUG-072",
+      "decision": "START_WORKING",
+      "reason": "highest EV"
+    },
+    {
+      "ts": 1792220062.8110363,
+      "item_id": "BUG-073",
+      "decision": "START_WORKING",
+      "reason": "highest EV"
+    },
+    {
+      "ts": 1792220062.8110402,
+      "item_id": "BUG-074",
+      "decision": "START_WORKING",
+      "reason": "highest EV"
+    },
+    {
+      "ts": 1792220062.811043,
+      "item_id": "BUG-075",
+      "decision": "START_WORKING",
+      "reason": "highest EV"
+    },
+    {
+      "ts": 1792220066.7238748,
+      "item_id": "BUG-076",
+      "decision": "START_WORKING",
+      "reason": "highest EV"
+    },
+    {
+      "ts": 1792220066.723879,
+      "item_id": "BUG-077",
+      "decision": "START_WORKING",
+      "reason": "highest EV"
+    },
+    {
+      "ts": 1792220066.7238817,
+      "item_id": "BUG-078",
+      "decision": "START_WORKING",
+      "reason": "highest EV"
+    },
+    {
+      "ts": 1792220070.8478732,
+      "item_id": "BUG-079",
+      "decision": "START_WORKING",
+      "reason": "highest EV"
+    },
+    {
+      "ts": 1792220070.8478768,
+      "item_id": "BUG-080",
+      "decision": "START_WORKING",
+      "reason": "highest EV"
+    },
+    {
+      "ts": 1792220070.8478785,
+      "item_id": "BUG-081",
+      "decision": "START_WORKING",
+      "reason": "highest EV"
+    },
+    {
+      "ts": 1792220074.883511,
+      "item_id": "BUG-082",
+      "decision": "START_WORKING",
+      "reason": "highest EV"
+    },
+    {
+      "ts": 1792220074.8835146,
+      "item_id": "BUG-083",
+      "decision": "START_WORKING",
+      "reason": "highest EV"
+    },
+    {
+      "ts": 1792220074.883516,
+      "item_id": "BUG-084",
+      "decision": "START_WORKING",
+      "reason": "highest EV"
+    },
+    {
+      "ts": 1792220079.0108385,
+      "item_id": "BUG-085",
+      "decision": "START_WORKING",
+      "reason": "highest EV"
+    },
+    {
+      "ts": 1792220079.0108426,
+      "item_id": "BUG-086",
+      "decision": "START_WORKING",
+      "reason": "highest EV"
+    },
+    {
+      "ts": 1792220079.0108447,
+      "item_id": "BUG-087",
+      "decision": "START_WORKING",
+      "reason": "highest EV"
+    },
+    {
+      "ts": 1792220083.387009,
+      "item_id": "BUG-088",
+      "decision": "START_WORKING",
+      "reason": "highest EV"
+    },
+    {
+      "ts": 1792220083.3870127,
+      "item_id": "BUG-089",
+      "decision": "START_WORKING",
+      "reason": "highest EV"
+    },
+    {
+      "ts": 1792220083.3870142,
+      "item_id": "BUG-090",
+      "decision": "START_WORKING",
+      "reason": "highest EV"
+    },
+    {
+      "ts": 1792220087.4518209,
+      "item_id": "BUG-091",
+      "decision": "START_WORKING",
+      "reason": "highest EV"
+    },
+    {
+      "ts": 1792220087.4518247,
+      "item_id": "BUG-092",
+      "decision": "START_WORKING",
+      "reason": "highest EV"
+    },
+    {
+      "ts": 1792220087.4518263,
+      "item_id": "BUG-093",
+      "decision": "START_WORKING",
+      "reason": "highest EV"
+    },
+    {
+      "ts": 1792220091.537436,
+      "item_id": "BUG-094",
+      "decision": "START_WORKING",
+      "reason": "highest EV"
+    },
+    {
+      "ts": 1792220091.5374393,
+      "item_id": "BUG-095",
+      "decision": "START_WORKING",
+      "reason": "highest EV"
+    },
+    {
+      "ts": 1792220091.537441,
+      "item_id": "BUG-096",
+      "decision": "START_WORKING",
+      "reason": "highest EV"
+    },
+    {
+      "ts": 1792220095.7471309,
+      "item_id": "BUG-097",
+      "decision": "START_WORKING",
+      "reason": "highest EV"
+    },
+    {
+      "ts": 1792220095.7471342,
+      "item_id": "BUG-098",
+      "decision": "START_WORKING",
+      "reason": "highest EV"
+    },
+    {
+      "ts": 1792220095.7471356,
+      "item_id": "BUG-099",
+      "decision": "START_WORKING",
+      "reason": "highest EV"
+    },
+    {
+      "ts": 1792220100.0630717,
+      "item_id": "BUG-100",
+      "decision": "START_WORKING",
+      "reason": "highest EV"
+    },
+    {
+      "ts": 1792220102.5632324,
+      "item_id": "PI-LIVE-1",
+      "decision": "START_PI",
+      "reason": "PI overrides all"
+    },
+    {
+      "ts": 1792220102.636508,
+      "item_id": "PI-LIVE-2",
+      "decision": "START_PI",
+      "reason": "PI overrides all"
+    },
+    {
+      "ts": 1792220102.710124,
+      "item_id": "PI-LIVE-3",
+      "decision": "START_PI",
+      "reason": "PI overrides all"
+    }
+  ],
+  "incidents": [
+    {
+      "ts": 1792220102.5733423,
+      "item_id": "PI-LIVE-1",
+      "root_cause": "Checkout latency spike fails on happy path",
+      "mttr": 0.01,
+      "verdict": "REJECTED"
+    },
+    {
+      "ts": 1792220102.5848768,
+      "item_id": "PI-LIVE-1",
+      "root_cause": "Checkout latency spike fails on happy path",
+      "mttr": 0.01,
+      "verdict": "REJECTED"
+    },
+    {
+      "ts": 1792220102.5963004,
+      "item_id": "PI-LIVE-1",
+      "root_cause": "Checkout latency spike fails on happy path",
+      "mttr": 0.01,
+      "verdict": "REJECTED"
+    },
+    {
+      "ts": 1792220102.6467545,
+      "item_id": "PI-LIVE-2",
+      "root_cause": "Queue consumer crashed fails on happy path",
+      "mttr": 0.01,
+      "verdict": "REJECTED"
+    },
+    {
+      "ts": 1792220102.6582005,
+      "item_id": "PI-LIVE-2",
+      "root_cause": "Queue consumer crashed fails on happy path",
+      "mttr": 0.01,
+      "verdict": "REJECTED"
+    },
+    {
+      "ts": 1792220102.6696672,
+      "item_id": "PI-LIVE-2",
+      "root_cause": "Queue consumer crashed fails on happy path",
+      "mttr": 0.01,
+      "verdict": "REJECTED"
+    },
+    {
+      "ts": 1792220102.7201784,
+      "item_id": "PI-LIVE-3",
+      "root_cause": "Search index corrupted fails on happy path",
+      "mttr": 0.01,
+      "verdict": "REJECTED"
+    },
+    {
+      "ts": 1792220102.731554,
+      "item_id": "PI-LIVE-3",
+      "root_cause": "Search index corrupted fails on happy path",
+      "mttr": 0.01,
+      "verdict": "REJECTED"
+    },
+    {
+      "ts": 1792220102.7433984,
+      "item_id": "PI-LIVE-3",
+      "root_cause": "Search index corrupted fails on happy path",
+      "mttr": 0.01,
+      "verdict": "REJECTED"
+    }
+  ],
+  "submissions": [
+    {
+      "ts": 1792219978.1454282,
+      "item_id": "BUG-001",
+      "status": "accepted",
+      "score": 70
+    },
+    {
+      "ts": 1792219978.171695,
+      "item_id": "BUG-002",
+      "status": "accepted",
+      "score": 70
+    },
+    {
+      "ts": 1792219978.224504,
+      "item_id": "BUG-003",
+      "status": "accepted",
+      "score": 70
+    },
+    {
+      "ts": 1792219981.8806906,
+      "item_id": "BUG-006",
+      "status": "accepted",
+      "score": 70
+    },
+    {
+      "ts": 1792219982.0110567,
+      "item_id": "BUG-005",
+      "status": "accepted",
+      "score": 70
+    },
+    {
+      "ts": 1792219982.0394778,
+      "item_id": "BUG-004",
+      "status": "accepted",
+      "score": 70
+    },
+    {
+      "ts": 1792219985.7780726,
+      "item_id": "BUG-007",
+      "status": "accepted",
+      "score": 70
+    },
+    {
+      "ts": 1792219985.7805061,
+      "item_id": "BUG-009",
+      "status": "accepted",
+      "score": 70
+    },
+    {
+      "ts": 1792219985.8727946,
+      "item_id": "BUG-008",
+      "status": "accepted",
+      "score": 70
+    },
+    {
+      "ts": 1792219989.5747626,
+      "item_id": "BUG-012",
+      "status": "accepted",
+      "score": 70
+    },
+    {
+      "ts": 1792219989.616155,
+      "item_id": "BUG-011",
+      "status": "accepted",
+      "score": 70
+    },
+    {
+      "ts": 1792219989.712088,
+      "item_id": "BUG-010",
+      "status": "accepted",
+      "score": 70
+    },
+    {
+      "ts": 1792219993.187188,
+      "item_id": "BUG-014",
+      "status": "accepted",
+      "score": 70
+    },
+    {
+      "ts": 1792219993.3829997,
+      "item_id": "BUG-013",
+      "status": "accepted",
+      "score": 70
+    },
+    {
+      "ts": 1792219993.42843,
+      "item_id": "BUG-015",
+      "status": "accepted",
+      "score": 70
+    },
+    {
+      "ts": 1792219997.053842,
+      "item_id": "BUG-016",
+      "status": "accepted",
+      "score": 70
+    },
+    {
+      "ts": 1792219997.0653844,
+      "item_id": "BUG-017",
+      "status": "accepted",
+      "score": 70
+    },
+    {
+      "ts": 1792219997.106266,
+      "item_id": "BUG-018",
+      "status": "accepted",
+      "score": 70
+    },
+    {
+      "ts": 1792220000.3032405,
+      "item_id": "BUG-021",
+      "status": "accepted",
+      "score": 70
+    },
+    {
+      "ts": 1792220000.4734492,
+      "item_id": "BUG-019",
+      "status": "accepted",
+      "score": 70
+    },
+    {
+      "ts": 1792220000.6840396,
+      "item_id": "BUG-020",
+      "status": "accepted",
+      "score": 70
+    },
+    {
+      "ts": 1792220003.946665,
+      "item_id": "BUG-023",
+      "status": "accepted",
+      "score": 70
+    },
+    {
+      "ts": 1792220003.9820151,
+      "item_id": "BUG-024",
+      "status": "accepted",
+      "score": 70
+    },
+    {
+      "ts": 1792220004.046148,
+      "item_id": "BUG-022",
+      "status": "accepted",
+      "score": 70
+    },
+    {
+      "ts": 1792220007.0392683,
+      "item_id": "BUG-027",
+      "status": "accepted",
+      "score": 70
+    },
+    {
+      "ts": 1792220007.2733243,
+      "item_id": "BUG-026",
+      "status": "accepted",
+      "score": 70
+    },
+    {
+      "ts": 1792220007.2763731,
+      "item_id": "BUG-025",
+      "status": "accepted",
+      "score": 70
+    },
+    {
+      "ts": 1792220010.985643,
+      "item_id": "BUG-030",
+      "status": "accepted",
+      "score": 70
+    },
+    {
+      "ts": 1792220010.9999118,
+      "item_id": "BUG-028",
+      "status": "accepted",
+      "score": 70
+    },
+    {
+      "ts": 1792220011.068493,
+      "item_id": "BUG-029",
+      "status": "accepted",
+      "score": 70
+    },
+    {
+      "ts": 1792220014.541154,
+      "item_id": "BUG-033",
+      "status": "accepted",
+      "score": 70
+    },
+    {
+      "ts": 1792220014.6387486,
+      "item_id": "BUG-032",
+      "status": "accepted",
+      "score": 70
+    },
+    {
+      "ts": 1792220014.7245212,
+      "item_id": "BUG-031",
+      "status": "accepted",
+      "score": 70
+    },
+    {
+      "ts": 1792220018.17236,
+      "item_id": "BUG-034",
+      "status": "accepted",
+      "score": 70
+    },
+    {
+      "ts": 1792220018.2310145,
+      "item_id": "BUG-036",
+      "status": "accepted",
+      "score": 70
+    },
+    {
+      "ts": 1792220018.238796,
+      "item_id": "BUG-035",
+      "status": "accepted",
+      "score": 70
+    },
+    {
+      "ts": 1792220021.8943524,
+      "item_id": "BUG-039",
+      "status": "accepted",
+      "score": 70
+    },
+    {
+      "ts": 1792220021.9461076,
+      "item_id": "BUG-038",
+      "status": "accepted",
+      "score": 70
+    },
+    {
+      "ts": 1792220021.9860942,
+      "item_id": "BUG-037",
+      "status": "accepted",
+      "score": 70
+    },
+    {
+      "ts": 1792220024.9907541,
+      "item_id": "BUG-040",
+      "status": "accepted",
+      "score": 70
+    },
+    {
+      "ts": 1792220025.2362988,
+      "item_id": "BUG-042",
+      "status": "accepted",
+      "score": 70
+    },
+    {
+      "ts": 1792220025.429921,
+      "item_id": "BUG-041",
+      "status": "accepted",
+      "score": 70
+    },
+    {
+      "ts": 1792220028.5484388,
+      "item_id": "BUG-044",
+      "status": "accepted",
+      "score": 70
+    },
+    {
+      "ts": 1792220028.7076929,
+      "item_id": "BUG-045",
+      "status": "accepted",
+      "score": 70
+    },
+    {
+      "ts": 1792220028.7283387,
+      "item_id": "BUG-043",
+      "status": "accepted",
+      "score": 70
+    },
+    {
+      "ts": 1792220031.8858228,
+      "item_id": "BUG-048",
+      "status": "accepted",
+      "score": 70
+    },
+    {
+      "ts": 1792220032.0738556,
+      "item_id": "BUG-047",
+      "status": "accepted",
+      "score": 70
+    },
+    {
+      "ts": 1792220032.2877088,
+      "item_id": "BUG-046",
+      "status": "accepted",
+      "score": 70
+    },
+    {
+      "ts": 1792220035.4977787,
+      "item_id": "BUG-051",
+      "status": "accepted",
+      "score": 70
+    },
+    {
+      "ts": 1792220035.732004,
+      "item_id": "BUG-050",
+      "status": "accepted",
+      "score": 70
+    },
+    {
+      "ts": 1792220035.8994298,
+      "item_id": "BUG-049",
+      "status": "accepted",
+      "score": 70
+    },
+    {
+      "ts": 1792220039.578385,
+      "item_id": "BUG-054",
+      "status": "accepted",
+      "score": 70
+    },
+    {
+      "ts": 1792220039.5812926,
+      "item_id": "BUG-053",
+      "status": "accepted",
+      "score": 70
+    },
+    {
+      "ts": 1792220039.6920633,
+      "item_id": "BUG-052",
+      "status": "accepted",
+      "score": 70
+    },
+    {
+      "ts": 1792220043.1986368,
+      "item_id": "BUG-055",
+      "status": "accepted",
+      "score": 70
+    },
+    {
+      "ts": 1792220043.2671864,
+      "item_id": "BUG-057",
+      "status": "accepted",
+      "score": 70
+    },
+    {
+      "ts": 1792220043.3155096,
+      "item_id": "BUG-056",
+      "status": "accepted",
+      "score": 70
+    },
+    {
+      "ts": 1792220046.8959732,
+      "item_id": "BUG-058",
+      "status": "accepted",
+      "score": 70
+    },
+    {
+      "ts": 1792220046.949946,
+      "item_id": "BUG-059",
+      "status": "accepted",
+      "score": 70
+    },
+    {
+      "ts": 1792220047.072343,
+      "item_id": "BUG-060",
+      "status": "accepted",
+      "score": 70
+    },
+    {
+      "ts": 1792220050.8155043,
+      "item_id": "BUG-061",
+      "status": "accepted",
+      "score": 70
+    },
+    {
+      "ts": 1792220050.8457234,
+      "item_id": "BUG-062",
+      "status": "accepted",
+      "score": 70
+    },
+    {
+      "ts": 1792220051.0506525,
+      "item_id": "BUG-063",
+      "status": "accepted",
+      "score": 70
+    },
+    {
+      "ts": 1792220054.6420588,
+      "item_id": "BUG-065",
+      "status": "accepted",
+      "score": 70
+    },
+    {
+      "ts": 1792220054.6701872,
+      "item_id": "BUG-066",
+      "status": "accepted",
+      "score": 70
+    },
+    {
+      "ts": 1792220054.8494937,
+      "item_id": "BUG-064",
+      "status": "accepted",
+      "score": 70
+    },
+    {
+      "ts": 1792220058.6426246,
+      "item_id": "BUG-067",
+      "status": "accepted",
+      "score": 70
+    },
+    {
+      "ts": 1792220058.7267656,
+      "item_id": "BUG-068",
+      "status": "accepted",
+      "score": 70
+    },
+    {
+      "ts": 1792220058.8467336,
+      "item_id": "BUG-069",
+      "status": "accepted",
+      "score": 70
+    },
+    {
+      "ts": 1792220062.7705386,
+      "item_id": "BUG-071",
+      "status": "accepted",
+      "score": 70
+    },
+    {
+      "ts": 1792220062.8064256,
+      "item_id": "BUG-072",
+      "status": "accepted",
+      "score": 70
+    },
+    {
+      "ts": 1792220062.8086023,
+      "item_id": "BUG-070",
+      "status": "accepted",
+      "score": 70
+    },
+    {
+      "ts": 1792220066.5830557,
+      "item_id": "BUG-075",
+      "status": "accepted",
+      "score": 70
+    },
+    {
+      "ts": 1792220066.6811392,
+      "item_id": "BUG-074",
+      "status": "accepted",
+      "score": 70
+    },
+    {
+      "ts": 1792220066.7199996,
+      "item_id": "BUG-073",
+      "status": "accepted",
+      "score": 70
+    },
+    {
+      "ts": 1792220070.6753707,
+      "item_id": "BUG-078",
+      "status": "accepted",
+      "score": 70
+    },
+    {
+      "ts": 1792220070.8434842,
+      "item_id": "BUG-077",
+      "status": "accepted",
+      "score": 70
+    },
+    {
+      "ts": 1792220070.845834,
+      "item_id": "BUG-076",
+      "status": "accepted",
+      "score": 70
+    },
+    {
+      "ts": 1792220074.444613,
+      "item_id": "BUG-080",
+      "status": "accepted",
+      "score": 70
+    },
+    {
+      "ts": 1792220074.5960932,
+      "item_id": "BUG-079",
+      "status": "accepted",
+      "score": 70
+    },
+    {
+      "ts": 1792220074.8807209,
+      "item_id": "BUG-081",
+      "status": "accepted",
+      "score": 70
+    },
+    {
+      "ts": 1792220078.9074957,
+      "item_id": "BUG-082",
+      "status": "accepted",
+      "score": 70
+    },
+    {
+      "ts": 1792220078.9203207,
+      "item_id": "BUG-084",
+      "status": "accepted",
+      "score": 70
+    },
+    {
+      "ts": 1792220079.0040033,
+      "item_id": "BUG-083",
+      "status": "accepted",
+      "score": 70
+    },
+    {
+      "ts": 1792220082.9993515,
+      "item_id": "BUG-086",
+      "status": "accepted",
+      "score": 70
+    },
+    {
+      "ts": 1792220083.162193,
+      "item_id": "BUG-087",
+      "status": "accepted",
+      "score": 70
+    },
+    {
+      "ts": 1792220083.3842995,
+      "item_id": "BUG-085",
+      "status": "accepted",
+      "score": 70
+    },
+    {
+      "ts": 1792220087.0872178,
+      "item_id": "BUG-088",
+      "status": "accepted",
+      "score": 70
+    },
+    {
+      "ts": 1792220087.2471743,
+      "item_id": "BUG-089",
+      "status": "accepted",
+      "score": 70
+    },
+    {
+      "ts": 1792220087.4495661,
+      "item_id": "BUG-090",
+      "status": "accepted",
+      "score": 70
+    },
+    {
+      "ts": 1792220091.4173498,
+      "item_id": "BUG-091",
+      "status": "accepted",
+      "score": 70
+    },
+    {
+      "ts": 1792220091.4205565,
+      "item_id": "BUG-092",
+      "status": "accepted",
+      "score": 70
+    },
+    {
+      "ts": 1792220091.5352404,
+      "item_id": "BUG-093",
+      "status": "accepted",
+      "score": 70
+    },
+    {
+      "ts": 1792220095.5019073,
+      "item_id": "BUG-094",
+      "status": "accepted",
+      "score": 70
+    },
+    {
+      "ts": 1792220095.6106105,
+      "item_id": "BUG-095",
+      "status": "accepted",
+      "score": 70
+    },
+    {
+      "ts": 1792220095.7449808,
+      "item_id": "BUG-096",
+      "status": "accepted",
+      "score": 70
+    },
+    {
+      "ts": 1792220099.8754303,
+      "item_id": "BUG-098",
+      "status": "accepted",
+      "score": 70
+    },
+    {
+      "ts": 1792220100.053832,
+      "item_id": "BUG-097",
+      "status": "accepted",
+      "score": 70
+    },
+    {
+      "ts": 1792220100.060762,
+      "item_id": "BUG-099",
+      "status": "accepted",
+      "score": 70
+    },
+    {
+      "ts": 1792220102.5326397,
+      "item_id": "BUG-100",
+      "status": "accepted",
+      "score": 70
+    }
+  ],
+  "events": [],
+  "started_at": 1792219974.603172
+}

@@ -1,0 +1,50 @@
+{
+  "item_id": "BUG-002",
+  "plan": {
+    "squad": "bug_squad",
+    "description": ""
+  },
+  "checkpoint": {
+    "execution": ".                                                                        [100%]\n1 passed in 2.97s"
+  },
+  "evidence": [
+    {
+      "ts": 1792218188.882432,
+      "coverage": 100.0,
+      "mvs": 1,
+      "review": 0.9
+    },
+    {
+      "ts": 1792218440.9870994,
+      "coverage": 100.0,
+      "mvs": 1,
+      "review": 0.9
+    },
+    {
+      "ts": 1792219955.3746512,
+      "coverage": 100.0,
+      "mvs": 1,
+      "review": 0.9
+    },
+    {
+      "ts": 1792219965.2818835,
+      "coverage": 40.0,
+      "mvs": 0,
+      "review": 0.9
+    },
+    {
+      "ts": 1792219967.306746,
+      "coverage": 100.0,
+      "mvs": 1,
+      "review": 0.9
+    },
+    {
+      "ts": 1792219978.1713548,
+      "coverage": 100.0,
+      "mvs": 1,
+      "review": 0.9
+    }
+  ],
+  "created_at": 1792218186.552175,
+  "updated_at": 1792219978.1713562
+}
