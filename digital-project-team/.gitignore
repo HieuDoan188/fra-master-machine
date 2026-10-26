@@ -1,0 +1,15 @@
+# Secrets — never commit
+token.json
+secrets/
+*.pem
+*.key
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Runtime state (regenerated per match)
+memory/match_memory/*.json
+memory/task_memory/*.json
