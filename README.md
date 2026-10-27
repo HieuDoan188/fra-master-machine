@@ -1,96 +1,34 @@
-# Fra Master Machine — Digital Project Team OS
+# Fra Master Machine
 
-An autonomous software-vendor team for the **Master The Machine** competition. The system observes a backlog, prioritizes work by expected value, fixes bugs / implements features / responds to product incidents, verifies with real tests, and submits — all without human intervention.
+Repo của đội **FRA** cho cuộc thi **Master The Machine (MTM-26)**.
 
-Built as a "software company" layered on top of [OpenHands](https://github.com/All-Hands-AI/OpenHands) as the coding engine.
-
-## Repository layout
+## Bố cục
 
 ```
 fra-master-machine/
-├── digital-project-team/     # Competition brain (orchestration, agents, simulator)
-├── openhands-fork/           # OpenHands fork — the coding engine (LLM agent loop)
-└── target-repositories/      # Target repos for experiments (sample-fastapi, fastapi)
+├── team-pack/   # ⭐ Bản nộp thi: team-sdlc-pack cho mtm-player + Codex
+├── dist/        # ZIP + SHA256 do team-pack/build.ps1 tạo ra (gitignored)
+└── legacy/      # Prototype cũ (Python brain + OpenHands), KHÔNG dùng trong trận
 ```
 
-| Part | Role | Analogy |
-|------|------|---------|
-| `digital-project-team/` | Decides what to do, when, and whether to submit | CEO + PM + QA + Release Manager |
-| `openhands-fork/` | Reads code, understands bugs, writes patches | Developers |
-| `target-repositories/` | Where the team "works" (test subjects) | Client projects |
+## Cuộc thi chạy như thế nào
 
-## Architecture
+BTC chọn **Codex** làm môi trường thi. **mtm-player**, app của BTC, spawn Codex CLI với agent `team_orchestrator` từ team pack của đội. Agent này:
 
-```
-Match API / SimulatedPlatform
-        │  poll every second
-        ▼
-┌─────────────────────────────────────────────────────────────┐
-│ MatchObserver      → detect new items / PI / deadlines       │
-│ PlannerAgent       → EV = score × success × deadline factor  │
-│ DirectorAgent      → allocate items to squads                │
-│ Squads (bug/cr/task/PI) → execute via coding engine          │
-│ CoverageAgent      → ≥90% test coverage required             │
-│ ReviewAgent        → confidence ≥85%, regression ≤10%        │
-│ SubmissionAuthority→ final gate (5 checks) → submit once     │
-└─────────────────────────────────────────────────────────────┘
-```
+1. **Preparation**: checkout repo được giao, dựng môi trường, build, đăng nhập vào match, rồi ghi `ENVIRONMENT_READY`.
+2. **Game**: đọc backlog, gọi Start Work, sửa code, test, commit và push, rồi Submit (cần full SHA cùng `answers/<ID>/submit.json` và evidence trong cùng commit).
+3. Báo mọi bước qua `<matchId>.progress.ndjson`. mtm-player chỉ biết trạng thái của đội qua file này.
 
-Coordination agents are **pure code** (fast, zero token cost, deterministic); only the coding engine consumes LLM tokens — where creativity is actually needed.
+Luật quan trọng: subagent chỉ được spawn bằng cơ chế native của Codex trong cùng session, **không được** chạy thêm CLI, app-server hay agent process nào khác. Vì luật này mà OpenHands trong `legacy/` không dùng được.
 
-## Key features
+Xem [team-pack/README.md](team-pack/README.md) để biết cách cài, kiểm tra, build và cấu hình tài khoản Codex.
 
-- **Fully autonomous loop** — bug appears → fix → verify → submit, with automatic retry (max N attempts) on failed fixes or rejected gates. No human approval anywhere in the loop.
-- **State machine enforced** — every item moves through a legal lifecycle (`VISIBLE → STARTED → IMPLEMENTING → VERIFYING → SUBMITTED/FAILED/CLOSED`); illegal transitions are rejected.
-- **EV-driven planning** — Product Incidents always win, everything else ranked by expected value across the whole portfolio.
-- **Real verification** — patches are applied to a sandbox copy and validated by running actual `pytest` (MVS + extra scenarios).
-- **Deterministic simulator** — no randomness; reproducible matches for benchmarking.
-- **Resilience** — watchdog revives stuck items, deadline service closes expired items, checkpoints survive crashes.
+## Tài liệu BTC
 
-## Results
+- Team Orchestrator Technical Guide: https://masterthemachine.tech/team-pack/team-orchestrator-technical-guide.html
+- Digital Cuder API: https://masterthemachine.tech/team-pack/digital-cuder-api.html
+- Repo đề luyện tập: `mtm-fra` (`M0PPU0FA/`, app Solova: Next.js, tRPC, Prisma, PostgreSQL ở port 5433)
 
-| Experiment | Result |
-|---|---|
-| Unit tests | 16/16 pass |
-| Full-match dry run (43 items) | Score 2565 · 43/43 accepted · 0 failed |
-| Real bug fix (FastAPI, injected bugs) | 3/3 fixed with real pytest |
-| Benchmark — 100 deterministic bugs | **100/100 accepted · 0 failed · 112.7s · 53.2 items/min** |
+## Bảo mật
 
-## Getting started
-
-```bash
-cd digital-project-team
-pip install -e .
-
-# 1. Unit tests
-python3 -m unittest discover -s tests -t .
-
-# 2. Full-match simulation (43 items)
-python3 -m scripts.dry_run
-
-# 3. Real-bug experiment on FastAPI (injected bugs, real pytest)
-python3 -m scripts.real_bug_test
-
-# 4. 100-bug benchmark
-python3 -m scripts.benchmark
-```
-
-## Connecting a real coding engine
-
-By default the system runs in **mock mode** (`RealAdapter`) with pre-written patches — used to validate orchestration. To use a real engine (OpenHands or any LLM API):
-
-```bash
-export OPENHANDS_MOCK=0
-export OPENHANDS_BASE_URL=http://<openhands-server>:3000
-```
-
-Then swap the adapter in `simulator/match_runner/runner.py` from `RealAdapter` to `OpenHandsAdapter` (or any adapter implementing `execute_task(task, workspace, session_id)` — the interface is isolated so the brain never changes).
-
-## Documentation
-
-- `digital-project-team/docs/PLAN.md` — full roadmap (Phase 0 → 12) and status
-- `digital-project-team/competitions/master_the_machine/rules/` — competition rules, scoring framework, risk register, design principles
-
-## Security
-
-Never commit credentials. `token.json`, `secrets/`, `*.pem`, `*.key` are gitignored.
+Không commit credential. Pack chỉ giữ password, bearer và cookie trong RAM của MCP helper. `.env`, `token.json`, `secrets/`, `*.pem`, `*.key` đều đã được gitignore.

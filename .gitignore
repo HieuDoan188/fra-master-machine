@@ -1,0 +1,15 @@
+# Build output
+dist/
+
+# Secrets — never commit
+.env
+token.json
+secrets/
+*.pem
+*.key
+
+# Real match logs (only the empty placeholder ships)
+team-pack/logs/*.ndjson
+!team-pack/logs/MATCH_ID.progress.ndjson
+
+node_modules/
