@@ -14,7 +14,9 @@ export const RULES = Object.freeze({
     TASK: { priorityBase: 20, preemptive: false, baseConfidence: 0.9, complexity: 0.3, estMinutes: 6, workflow: 'workflow-task' },
   },
   // submitMarginSec: time reserved for answer + commit + push + submit after the work itself.
-  planner: { squadCapacity: 3, minDeadlineFactor: 0.05, submitMarginSec: 30 },
+  // squadCapacity 1: finish and submit one item end-to-end before starting the next (one Codex session,
+  // one database, one app port, shared token quota). PI still preempts. Raise only with separate worktrees.
+  planner: { squadCapacity: 1, minDeadlineFactor: 0.05, submitMarginSec: 30 },
   submission: {
     // legacy agents/submission/authority.py + agents/review/review.py
     minCoverage: 90,

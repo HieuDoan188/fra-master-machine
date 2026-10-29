@@ -194,11 +194,11 @@ export class MatchBrain {
     });
   }
 
-  plan() {
+  plan(options = {}) {
     const total = this.totalSec();
     const speed = this.speed();
     const scored = [...this.items.values()].map((item) => ({ item, score: evOfItem(item, this.secondsLeft(item), total, speed) }));
-    return { ...plan(scored), speed: Math.round(speed * 100) / 100 };
+    return { ...plan(scored, options), speed: Math.round(speed * 100) / 100 };
   }
 
   snapshot() {

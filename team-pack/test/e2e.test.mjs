@@ -83,7 +83,7 @@ test('full match lifecycle against mock game server', { timeout: 120_000 }, asyn
   const mock = await startMockServer({ username: 'fra-cuder', password: PASSWORD, bearer: BEARER, repo: REPO });
   t.after(() => mock.close());
   const progressLogFile = join(tw, 'team-sdlc-pack', 'logs', 'ABCD1234.progress.ndjson').replace(/\\/g, '/');
-  const common = { schemaVersion: 1, playerSessionId: 'session-example', teamId: 'FRA', teamName: 'FRA Master Machine', matchId: 'ABCD1234' };
+  const common = { schemaVersion: 1, playerSessionId: 'session-example', teamId: 'FRA', teamName: '[FHM] FRAIO', matchId: 'ABCD1234' };
   const prepare = {
     ...common, type: 'PREPARE_GAME', requestId: 'prepare-example', username: 'fra-cuder', password: PASSWORD,
     matchPageUrl: `${mock.origin}/match`, allowedMatchOrigins: [mock.origin], repository: REPO,
@@ -119,6 +119,9 @@ test('full match lifecycle against mock game server', { timeout: 120_000 }, asyn
     assert.equal(init.result.serverInfo.name, 'mtm_minimal');
     const list = await mcp.request('tools/list', {});
     assert.ok(list.result.tools.every((t) => t.inputSchema?.type === 'object'));
+    const tool = (n) => list.result.tools.find((t) => t.name === n);
+    for (const n of ['login_match', 'refresh_match', 'plan_next', 'company_tool', 'wait_for_update']) assert.equal(tool(n).annotations?.readOnlyHint, true, n);
+    assert.equal(tool('start_work').annotations, undefined);
 
     // --- preparation ---
     let r = await mcp.call('configure_session', { input: wire('PREPARE_GAME_V2', prepare) });
@@ -154,6 +157,18 @@ test('full match lifecycle against mock game server', { timeout: 120_000 }, asyn
     assert.equal(r.next.itemId, 'TASK-01');
     assert.equal(r.next.action, 'CONTINUE');
     assert.equal((await mcp.call('scan_repo', { impactOf: 'app' })).ok, true);
+    assert.ok(r.reminder?.includes('kb_search'), 'reminds to consult the KB');
+
+    // --- company knowledge MCP (initialize once, session header reused, SSE answers) ---
+    r = await mcp.call('company_tool', { name: 'kb_search', arguments: { query: 'index' } });
+    assert.equal(r.ok, true, JSON.stringify(r));
+    assert.match(r.result.content[0].text, /POLICY-7/);
+    r = await mcp.call('company_tool', { name: 'get_test_data', arguments: { backlogItemKey: 'TASK-01' } });
+    assert.equal(r.ok, true, JSON.stringify(r));
+    assert.deepEqual(mock.state.mcpCalls.map((c) => c.method), ['initialize', 'notifications/initialized', 'tools/call', 'tools/call']);
+    assert.equal(mock.state.mcpCalls.at(-1).session, 'mcp-sess-1');
+    assert.equal((await mcp.call('company_tool', { name: 'delete_everything' })).error, 'COMPANY_TOOL_NOT_ALLOWED');
+    assert.equal((await mcp.call('plan_next')).kbConsulted, true);
 
     // --- tests must be honest; final results only through the Submission Authority ---
     assert.equal((await mcp.call('report_progress', { event: { type: 'BACKLOG_TESTS', backlogId: 'TASK-01', status: 'PASSED', required: 2, executed: 2, passed: 2, failed: 0, skipped: 0 } })).error, 'USE_REPORT_VERIFICATION');

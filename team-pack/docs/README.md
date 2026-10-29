@@ -42,6 +42,7 @@
 | `report_verification` | Gate của **Submission Authority**: tất cả MVS pass, coverage ≥ 90%, confidence ≥ 0.85, regressionRisk ≤ 0.10, correctness ≥ 0.8, có evidence. Ghi BACKLOG_TESTS với số liệu thật. Đạt thì chuyển sang READY_TO_SUBMIT, không đạt thì quay về IMPLEMENTING |
 | `update_item` | `rework` hoặc `fail` (ghi BACKLOG_STATUS FAILED) |
 | `scan_repo` | Tóm tắt stack, lệnh build và test, file test; tham số `impactOf` trả về danh sách file bị ảnh hưởng |
+| `company_tool` | **Company MCP** của trận (`/api/v1/mcp/<matchId>`, bearer của đội): `kb_search` (chính sách công ty, `query:"index"` để liệt kê) và `get_test_data` (fixture và loader chính thức). Có ghi log `GAME_MASTER_API`, giữ `Mcp-Session-Id`, đọc được SSE |
 | `session_status` | Ảnh chụp trạng thái kèm trạng thái của bộ não, không chứa secret |
 
 `submit_work` từ chối mọi item chưa qua gate. Bộ não chạy bằng code thuần, không tốn token.
@@ -59,9 +60,13 @@
 
 Hai cải tiến đến từ simulator: (1) chừa `submitMarginSec` cho bước commit, push và submit; (2) **tự hiệu chỉnh tốc độ**, tức là đo thời gian thật trên các item đã nộp để điều chỉnh `estMinutes`. Trước khi có (2), planner EV thua FIFO khi đội làm chậm hơn ước tính. Sau mỗi trận luyện tập, hãy sửa `estMinutes` trong `rules.mjs` theo thời gian thực tế.
 
-## Codex và CODEX_HOME
+## Codex và mtm-player (đọc từ source 0.9.35)
 
-Layout cài đặt (`.codex/config.toml`, `.codex/agents/`) cho thấy mtm-player chạy Codex với `CODEX_HOME=<TeamWorkspace>\.codex`. Đã kiểm chứng: với `CODEX_HOME` đó, `codex mcp list` hiện `mtm_minimal`, nhưng Codex báo **Not logged in**. Vì vậy phải chạy `codex login` một lần với đúng `CODEX_HOME` này. Installer không đụng tới `auth.json`.
+- mtm-player chạy `codex app-server` với `cwd = TeamWorkspace`, `CODEX_HOME` mặc định, sandbox `danger-full-access`, `approvalPolicy: on-request`.
+- Prompt mỗi phase yêu cầu agent đọc `.agents/skills/{game-preparation|team-orchestrator|team-recovery}/SKILL.md`. Đó là lý do skill là phần điều khiển chính.
+- mtm-player tự ghi `ORCHESTRATOR_STARTED` khi khởi tạo log. Helper đọc log trước nên không ghi lặp.
+- `.codex/config.toml` của workspace chỉ được nạp khi workspace đã được trust trong `~\.codex\config.toml`.
+- mtm-player kiểm tra byte-exact `.codex/agents/team-orchestrator.toml` và `.mtm/team-{runtime,pack-info}.json` so với `team-sdlc-pack/runtime/`.
 
 Vì sao đọc match qua `GET /api/v1/match/<matchId>`: trang `/match/<id>` render ở phía client và chính nó gọi endpoint này với cookie đăng nhập, nên đọc JSON trực tiếp là cùng dữ liệu, chỉ bớt bước parse HTML. Endpoint này được suy ra từ JS công khai của trang. Nếu BTC đổi endpoint, refresh sẽ trả lỗi và agent sẽ mở blocker.
 
@@ -79,3 +84,14 @@ Vì sao đọc match qua `GET /api/v1/match/<matchId>`: trang `/match/<id>` rend
 2. mtm-player có chạy PREPARE và START trong cùng một Codex session không. Nếu START đến ở process mới thì helper không có password để đăng nhập lại; khi đó nó vẫn suy ra repo từ view nhưng sẽ báo `ACCOUNT_UNAVAILABLE`.
 3. Tên scope: guide ghi `submissions:create`, API doc ghi `submission:create`. Helper không chặn theo tên scope.
 4. Quy ước tên file profile phụ: section 2 của guide dùng `team_developer.toml`, section 5 dùng `team-orchestrator.toml`. Pack theo section 5, vì đó là bảng MUST.
+
+## Gộp từ bản của Tin (nhánh `team-pack` của mtm-fra), dựa trên kinh nghiệm trận luyện tập
+
+- `company_tool` (Company MCP: KB và fixture). `plan_next` nhắc tra KB nếu chưa tra.
+- Annotation `readOnlyHint` cho các tool chỉ đọc, để AI duyệt (`auto_review`) của mtm-player không chặn login hay refresh.
+- Tên đội đúng: `[FHM] FRAIO`.
+- Submit: chỉ khi trận `IN_PROGRESS`; kiểm tra đã push bằng `git ls-remote`; receipt đọc từ `submission.id` khi `submission.status = ACCEPTED`.
+- `wait_for_update` chờ tới 600 giây (poll mỗi 5 giây trong Node, không tốn token) khi mọi item đều đã kết thúc. `tool_timeout_sec = 660`.
+- Capacity mặc định là 1: làm xong và nộp từng item một (PI vẫn chen ngang).
+- Skill và profile: tra KB trước, chạy check runner và loader chính thức, kiểm tra schema answer, sửa test cũ khi trái với KB hoặc migration, dùng Playwright cho evidence giao diện, quy tắc tiết kiệm token, xử lý CRLF.
+- Skill `solova-reference`: bản đồ module. **Không** chép các đáp án cứng của item luyện tập.

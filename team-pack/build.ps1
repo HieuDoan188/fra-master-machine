@@ -1,6 +1,6 @@
 # Builds the deliverable ZIP + SHA256 after testing the pack in a clean workspace.
 #   powershell -NoProfile -ExecutionPolicy Bypass -File .\build.ps1
-param([string]$OutDir = (Join-Path $PSScriptRoot '..\dist'))
+param([string]$OutDir = (Join-Path $PSScriptRoot 'dist'))
 $ErrorActionPreference = 'Stop'
 
 $info = Get-Content (Join-Path $PSScriptRoot 'team-pack-info.json') -Raw | ConvertFrom-Json
@@ -29,7 +29,7 @@ $stage = Join-Path ([IO.Path]::GetTempPath()) ("mtm-stage-" + [guid]::NewGuid().
 $pack = Join-Path $stage $name
 New-Item -ItemType Directory -Force $pack | Out-Null
 foreach ($item in Get-ChildItem -LiteralPath $PSScriptRoot -Force) {
-  if ($item.Name -in @('node_modules', '.env')) { continue }
+  if ($item.Name -in @('node_modules', '.env', 'dist')) { continue }
   Copy-Item -LiteralPath $item.FullName -Destination $pack -Recurse -Force
 }
 # Ship only the empty log placeholder.

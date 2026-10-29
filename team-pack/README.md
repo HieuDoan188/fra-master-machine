@@ -1,10 +1,10 @@
-# team-sdlc-pack — FRA Master Machine
+# team-sdlc-pack — [FHM] FRAIO (FRA)
 
 Đây là team pack của đội **FRA** cho Master The Machine (MTM-26). Nó được dựng theo *MTM Team Orchestrator Technical Guide v0.5.1* và *Digital Cuder API*.
 
 - Package name: `team-sdlc-pack`. Đây là tên bắt buộc, không đổi thành tên đội.
 - Provider: `codex`. Root agent: `team_orchestrator`.
-- Identity nằm trong `team-pack-info.json` (`FRA` / `FRA Master Machine`). Khi đổi version, sửa cả `package.json` và `team-runtime.json`.
+- Identity nằm trong `team-pack-info.json` (`FRA` / `[FHM] FRAIO`). Khi đổi version, sửa cả `package.json` và `team-runtime.json`.
 
 ## Cách pack hoạt động
 
@@ -48,17 +48,15 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\build.ps1
 
 ## Tài khoản Codex
 
-mtm-player chạy Codex với `CODEX_HOME=<TeamWorkspace>\.codex`. Đây là một "nhà" Codex riêng, **chưa đăng nhập** (đã kiểm chứng bằng `codex mcp list` và `codex login status`). Vì vậy cần đăng nhập một lần bằng tài khoản BTC cấp:
+mtm-player 0.9.35 chạy `codex app-server` với `cwd = <TeamWorkspace>` và **`CODEX_HOME` mặc định** (`~\.codex`), tức là dùng đúng tài khoản Codex đang đăng nhập trên máy (`codex login status`). Codex chỉ nạp `<TeamWorkspace>\.codex\config.toml` (MCP `mtm_minimal`) khi workspace đã được **trust**:
 
-```powershell
-$env:CODEX_HOME = "D:\mtm\FRA\.codex"
-codex login            # tài khoản BTC cấp
-codex login status     # Logged in ...
-codex mcp list         # mtm_minimal ... enabled
-Remove-Item Env:CODEX_HOME
+```toml
+# ~\.codex\config.toml
+[projects.'d:\mtm\fra']
+trust_level = "trusted"
 ```
 
-Xem đầy đủ ở [docs/RUN-TEST.md](docs/RUN-TEST.md), bước B2–B3.
+Kiểm tra bằng cách chạy `codex mcp list` trong `D:\mtm\FRA`: phải thấy `mtm_minimal … enabled`. Xem đầy đủ ở [docs/RUN-TEST.md](docs/RUN-TEST.md).
 
 - Không pin `model` trong agent profile. Model lấy từ `allowedModels` trong `MTM_MODEL_POLICY_V1` do mtm-player gửi.
 - Quyền GitHub (clone/push repo được giao) là **Git credential của operator**, khác với tài khoản Codex. Pack không bao giờ lưu token Git.

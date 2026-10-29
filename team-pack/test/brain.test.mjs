@@ -83,7 +83,7 @@ test('READY_TO_SUBMIT is planned first, infeasible items are skipped, capacity r
   const ready = mk('T-READY', 'TASK', S.READY_TO_SUBMIT);
   const late = mk('CR-LATE', 'CR');
   const many = ['B1', 'B2', 'B3', 'B4'].map((k) => mk(k, 'BUG'));
-  const { actions, skipped } = plan([scored(late, 60), scored(ready, 900), ...many.map((m) => scored(m, 1500))]);
+  const { actions, skipped } = plan([scored(late, 60), scored(ready, 900), ...many.map((m) => scored(m, 1500))], { squadCapacity: 3 });
   assert.equal(actions[0].action, 'SUBMIT');
   assert.ok(skipped.some((s) => s.itemId === 'CR-LATE' && /time/.test(s.reason)));
   assert.equal(actions.filter((a) => a.action === 'START_WORKING').length, 3);

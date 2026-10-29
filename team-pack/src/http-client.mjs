@@ -56,7 +56,9 @@ export class GuardedHttp {
     if (!this.allowedOrigins.has(origin)) throw new Error(`ORIGIN_NOT_ALLOWED: ${origin}`);
     if (u.username || u.password) throw new Error('URL_CREDENTIALS_FORBIDDEN');
 
-    const h = { Accept: 'application/json', ...headers };
+    // Same-origin Origin/Referer, as the match web page sends them: the game server rejects
+    // POST /api/v1/auth/login without them (403 "Origin check failed").
+    const h = { Accept: 'application/json', Origin: origin, Referer: `${origin}/`, ...headers };
     if (json !== undefined) h['Content-Type'] = 'application/json';
     const jar = this.cookies.get(origin);
     if (withCookies && jar?.size) h.Cookie = [...jar].map(([k, v]) => `${k}=${v}`).join('; ');
@@ -109,6 +111,11 @@ export class GuardedHttp {
     const text = Buffer.concat(chunks).toString('utf8');
     let body = null;
     try { body = text ? JSON.parse(text) : null; } catch { body = null; }
+    if (body === null && /^(event|data):/m.test(text)) {
+      // Streamable-HTTP MCP may answer as server-sent events: take the last JSON data line.
+      const data = text.split(/\r?\n/).filter((l) => l.startsWith('data:')).map((l) => l.slice(5).trim());
+      for (const d of data.reverse()) { try { body = JSON.parse(d); break; } catch { /* next */ } }
+    }
     const requestId = res.headers.get('x-request-id') ?? body?.requestId ?? body?.error?.requestId ?? null;
     return {
       ok: res.ok,
@@ -117,6 +124,7 @@ export class GuardedHttp {
       requestId,
       retryAfter: res.headers.get('retry-after'),
       idempotentReplay: res.headers.get('idempotent-replay') === 'true',
+      mcpSessionId: res.headers.get('mcp-session-id'),
       origin,
       path: u.pathname,
     };

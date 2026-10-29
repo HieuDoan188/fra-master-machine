@@ -5,7 +5,7 @@ description: Preparation phase for an MTM match after PREPARE_GAME_V2 - verify G
 
 # Game preparation
 
-The input carries the repository, the account, the paths and the model policy. It has **no bearer key**. Do not start backlog work and do not push in this phase. Every step logs `PREPARATION_STATUS` through `report_progress` as `IN_PROGRESS` at the start and `COMPLETED`, `FAILED` or `BLOCKED` at the end. Report `COMPLETED` only after the step really succeeded.
+The input carries the repository, the account, the paths and the model policy. It has **no bearer key**. Do not start backlog work and do not push in this phase. To save tokens and turns, batch shell work into a few combined commands (clone + HEAD SHA; install + generate + migrate + seed + doctor; typecheck + build + test) and do not read BUILD_STATE.md, DECISIONS.md or source files during preparation. Every step logs `PREPARATION_STATUS` through `report_progress` as `IN_PROGRESS` at the start and `COMPLETED`, `FAILED` or `BLOCKED` at the end. Report `COMPLETED` only after the step really succeeded.
 
 0. `configure_session({input: <whole PREPARE_GAME_V2 message>})`. The helper validates paths and scope and logs ORCHESTRATOR_STARTED. Keep the returned `checkoutRoot`, `matchRoot` and `repository`. Read `AGENTS.md` in the team workspace if it exists.
 
@@ -13,15 +13,16 @@ The input carries the repository, the account, the paths and the model policy. I
 
 2. **REPOSITORY.** Clone into `checkoutRoot` (`git clone --branch <branch> <url> <checkoutRoot>`), or fetch and check out if it already exists. Confirm that `<checkoutRoot>/<folder>` exists, then record `git rev-parse HEAD`.
 
-3. **ENVIRONMENT.** Read `<matchRoot>/README.md` and `<matchRoot>/env-require/README.md` (and `requirements.json`) if present, and do exactly what they say. For the current Solova scenario this means:
-   - Node 20+, pnpm, Git, and a local PostgreSQL 15+ on **port 5433**, without Docker.
-   - Create `src/.env` from `src/.env.example`: `DATABASE_URL` and `TEST_DATABASE_URL` on 127.0.0.1:5433. Never use a production database. Never commit `.env` (it is gitignored, so check with `git status`).
-   - Run `pnpm install --frozen-lockfile`, `pnpm prisma migrate deploy` and `pnpm db:seed` in `src/`.
-   - The environment counts as ready only when `env-require/doctor.ps1` prints `Environment status: READY`.
-   - Do not modify tests to work around missing database privileges. That is environment setup (see `db-setup.sql`).
-   - Do not change `exam-info.json`.
+3. **ENVIRONMENT.** Read `<matchRoot>/README.md` and `<matchRoot>/env-require/README.md` (and `requirements.json`) if present, and do exactly what they say. The operator has already installed the machine-level parts (Node, pnpm, PostgreSQL 16 on 127.0.0.1:**5433**, the `freelanceos` role from `db-setup.sql`). Never use Docker or a production database. For the Solova scenario:
+   - **Database credentials come from the operator's environment variables**: `MTM_DATABASE_URL`, `MTM_TEST_DATABASE_URL` and `MTM_AUTH_SECRET`. Create `src/.env` from `src/.env.example` and replace only `DATABASE_URL`, `TEST_DATABASE_URL` and `AUTH_SECRET` with those values, without printing them. For example, in PowerShell:
+     `$t = Get-Content src/.env.example -Raw; $t = $t -replace '(?m)^DATABASE_URL=.*$', "DATABASE_URL=`"$env:MTM_DATABASE_URL`"" -replace '(?m)^TEST_DATABASE_URL=.*$', "TEST_DATABASE_URL=`"$env:MTM_TEST_DATABASE_URL`"" -replace '(?m)^AUTH_SECRET=.*$', "AUTH_SECRET=`"$env:MTM_AUTH_SECRET`""; Set-Content src/.env $t -NoNewline`
+     If any of the three variables is missing, report `BLOCKED` with blocker `DB_CREDENTIALS_MISSING`. Never commit `.env` (it is gitignored; confirm with `git status`). Never read credential files outside the workspace.
+   - If nothing listens on 127.0.0.1:5433, report `BLOCKED` with blocker `POSTGRES_DOWN`. The operator starts the database.
+   - In `src/`: `pnpm install --frozen-lockfile`, then **`pnpm prisma generate`** (pnpm 10 skips the Prisma postinstall, and the build fails with implicit-`any` errors without it), then `pnpm prisma migrate deploy` and `pnpm db:seed`. Set `PRISMA_HIDE_UPDATE_MESSAGE=1` and ignore Prisma "Update available" notices.
+   - Run `env-require/doctor.ps1`; ENVIRONMENT is `COMPLETED` only when it prints `Environment status: READY`.
+   - Do not modify tests to work around missing database privileges. That is environment setup (see `db-setup.sql`). Do not change `exam-info.json`.
 
-4. **BUILD.** Run the baseline checks: `pnpm typecheck`, `pnpm test` and `pnpm build` (or whatever the source defines). Write down the real pass/fail counts. A failing baseline must be reported as `FAILED` or `BLOCKED`, never as `COMPLETED`.
+4. **BUILD.** `pnpm typecheck` and `pnpm build` must pass for `COMPLETED`; if either fails, report `FAILED`. Then run the baseline `pnpm test` and record the real counts. **Pre-existing failing tests do not block readiness.** They are usually the planted defects that later backlog items ask you to fix (for example, the Solova practice repo ships 11/12 passing). Record the failing test names in your notes and in the BUILD summary, for example "Build passed; baseline tests 11/12 (cascade RESTRICT test fails pre-existing)".
 
 5. **MATCH_LOGIN.** Call `login_match`. The helper logs in, opens the exact match, checks team, repository, branch and folder against the input, and logs `MATCH_LOGIN`. On `ASSIGNMENT_MISMATCH`, stop and open a blocker.
 

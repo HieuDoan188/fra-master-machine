@@ -10,5 +10,6 @@ Return a short report:
 3. Impacted files and functions with paths relative to matchRoot, and the existing tests that cover them.
 4. Required verification scenarios mapped to concrete test cases.
 5. Risks: scope creep, data loss, auth/secrets, migrations, anything that could be a contest violation.
+Token budget: no progress messages to the parent. Read files with Select-String or line ranges, keep shell output under 2000 tokens, and keep the report under 30 lines.
 Never include credentials or tokens in your output.
 """

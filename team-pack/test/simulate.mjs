@@ -75,7 +75,7 @@ function simulate(strategy) {
     };
     if (strategy === 'brain') {
       // Follow the plan: PI preempts (parks) lower-priority work; parked work resumes later.
-      const wanted = brain.plan().actions
+      const wanted = brain.plan({ squadCapacity: CAPACITY }).actions
         .filter((a) => ['START_PI', 'CONTINUE_PI', 'CONTINUE', 'START_WORKING'].includes(a.action))
         .map((a) => a.itemId)
         .slice(0, CAPACITY);

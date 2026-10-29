@@ -29,8 +29,16 @@ export async function fileExistsAtRevision(checkoutRoot, rev, path) {
   return (await git(checkoutRoot, ['cat-file', '-e', `${rev}:${path}`])).ok;
 }
 
+// Pushed = the remote branch head (asked live with ls-remote) is rev or a descendant of it.
+// Falls back to the local tracking ref when the remote cannot be queried.
 export async function isPushed(checkoutRoot, rev, branch) {
-  return (await git(checkoutRoot, ['merge-base', '--is-ancestor', rev, `refs/remotes/origin/${branch}`])).ok;
+  const remote = await git(checkoutRoot, ['ls-remote', 'origin', `refs/heads/${branch}`], { timeoutMs: 30_000 });
+  const head = remote.ok ? remote.stdout.split(/\s/)[0] : '';
+  if (head === rev) return true;
+  // Remote head we do not have locally (someone pushed after us): judge by the tracking ref our push updated.
+  const known = head && (await git(checkoutRoot, ['cat-file', '-e', `${head}^{commit}`])).ok;
+  const tip = known ? head : `refs/remotes/origin/${branch}`;
+  return (await git(checkoutRoot, ['merge-base', '--is-ancestor', rev, tip])).ok;
 }
 
 export async function originUrl(checkoutRoot) {

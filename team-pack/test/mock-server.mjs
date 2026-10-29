@@ -13,6 +13,7 @@ export function startMockServer({ username, password, bearer, repo, matchId = 'A
     submittedKeys: new Set(),
     failNextSubmit: 0,
     calls: [],
+    mcpCalls: [],
     sequence: 1,
   };
 
@@ -33,6 +34,8 @@ export function startMockServer({ username, password, bearer, repo, matchId = 'A
       const bearerOk = req.headers.authorization === `Bearer ${bearer}`;
 
       if (req.method === 'POST' && url.pathname === '/api/v1/auth/login') {
+        // Real server: 403 "Origin check failed" without a same-origin Origin header.
+        if (req.headers.origin !== `http://${req.headers.host}`) return err(res, 403, 'FORBIDDEN');
         const b = JSON.parse(raw || '{}');
         if (b.username !== username || b.password !== password) return err(res, 401, 'INVALID_CREDENTIALS');
         const sid = Math.random().toString(36).slice(2);
@@ -44,8 +47,8 @@ export function startMockServer({ username, password, bearer, repo, matchId = 'A
         if (!authed) return err(res, 401, 'UNAUTHENTICATED');
         return json(res, 200, {
           match: { id: MATCH_UUID, status: 'IN_PROGRESS', currentSequence: state.sequence, elapsedSec: state.elapsedSec, remainingSec: 2400 - state.elapsedSec },
-          team: { code: teamCode, name: 'FRA Master Machine' },
-          repo,
+          team: { code: teamCode, name: '[FHM] FRAIO' },
+          repo: { ...repo, url: repo.url.replace(/.git$/, ""), folder: `${repo.folder}/` }, // real view format: trailing slash, no .git
           backlog: state.backlog,
           projectContext: { name: 'Solova', summary: 'Mock project', features: [] },
           api: { startEndpoint: `/api/v1/matches/${MATCH_UUID}/backlogs/start`, submissionEndpoint: `/api/v1/matches/${MATCH_UUID}/submissions`, feedEndpoint: null, pollActiveMs: 5000, pollIdleMs: 10000 },
@@ -85,9 +88,23 @@ export function startMockServer({ username, password, bearer, repo, matchId = 'A
         if (body.clientSubmissionId !== key) return err(res, 422, 'INVALID_SUBMISSION');
         if (state.submittedKeys.has(body.backlogItemKey)) return err(res, 409, 'ALREADY_SUBMITTED');
         state.submittedKeys.add(body.backlogItemKey);
-        const response = { receiptId: `receipt-${state.submissions.size + 1}`, status: 'ACCEPTED', scoreStatus: 'PENDING' };
+        // Shape observed in practice matches (receipt id inside submission).
+        const response = { submission: { id: `receipt-${state.submissions.size + 1}`, status: 'ACCEPTED' }, scoreStatus: 'PENDING' };
         state.submissions.set(key, { bodyText: raw, response });
         return json(res, 201, response);
+      }
+
+      // Company knowledge MCP (streamable HTTP, answers as SSE to exercise that path).
+      if (req.method === 'POST' && url.pathname === `/api/v1/mcp/${matchId}`) {
+        if (!bearerOk) return err(res, 401, 'INVALID_API_KEY');
+        const rpc = JSON.parse(raw || '{}');
+        state.mcpCalls.push({ method: rpc.method, session: req.headers['mcp-session-id'] ?? null, params: rpc.params ?? null });
+        if (rpc.id === undefined) { res.writeHead(202); return res.end(); }
+        const result = rpc.method === 'initialize'
+          ? { protocolVersion: '2025-03-26', capabilities: { tools: {} }, serverInfo: { name: 'company', version: '1' } }
+          : { content: [{ type: 'text', text: rpc.params?.name === 'kb_search' ? 'POLICY-7: deleting a company cascades invoices; journal entries are kept.' : 'fixture: challenge/TASK-01-load.mjs' }] };
+        res.writeHead(200, { 'Content-Type': 'text/event-stream', ...(rpc.method === 'initialize' ? { 'Mcp-Session-Id': 'mcp-sess-1' } : {}) });
+        return res.end(`event: message\ndata: ${JSON.stringify({ jsonrpc: '2.0', id: rpc.id, result })}\n\n`);
       }
 
       return err(res, 404, 'NOT_FOUND');

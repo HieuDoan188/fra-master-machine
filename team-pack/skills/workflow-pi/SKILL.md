@@ -3,14 +3,14 @@ name: workflow-pi
 description: Product Incident workflow (legacy pi_squad + workflows/product_incident). Use when plan_next returns START_PI/CONTINUE_PI. Restore production behaviour fast - MTTR beats elegance.
 ---
 
-# Product Incident (PI) — priority 100, overrides everything
+# Product Incident (PI): overrides everything
 
-MTTR target: **8 minutes** (`plan_next.incidents[].overMttrTarget`). Restoring the service is worth more than an elegant fix.
+Time budget and MTTR target: **8 minutes** (`plan_next.incidents[].overMttrTarget`). Restoring the service is worth more than an elegant fix.
 
-1. **Register & preempt.** If `plan_next.preempt` is set, park the current item. Leave its edits uncommitted, or `git stash push -m <ID>`, but never commit half-done work to the branch. Then call `start_work` for the PI.
-2. **Investigate (investigator).** Reproduce the incident first, with a failing test or a minimal script. Use `scan_repo({impactOf:"<module or symptom>"})` to list suspect files. Write down at most 2 or 3 hypotheses.
-3. **Root cause.** Confirm one hypothesis with evidence (log line, failing assertion). If none holds within ~3 minutes, take the most likely one and contain it.
-4. **Commander fix.** Make the smallest change that restores the behaviour: a guard, a revert of the faulty logic, or a correct default. Do not refactor.
-5. **Validator.** Turn the reproduction into a regression test. Run the MVS scenarios plus the existing tests of the impacted module. Save the output to `answers/<ID>/evidence/`.
-6. **Gate.** `report_verification` with real counts and an honest review. Rework until it approves.
-7. **Submit.** Fill submit.json, commit everything together, push, `submit_work`. Then unpark the previous item (`git stash pop`) and call `plan_next`.
+1. **Park the current item.** Tell its worker with `send_message` to stop and report its state, then wait for that report. Do not reset or commit its half-done edits. If the PI will touch the same files, `git stash push -m <parkedID> -- <those paths>`.
+2. `start_work` for the PI, then spawn a fresh worker with the PI brief, MVS, KB text and the 8-minute budget.
+3. **Investigate.** Reproduce with a failing test or a minimal script. `scan_repo({impactOf:"<module or symptom>"})` lists suspect files. Keep at most 2 or 3 hypotheses; if none is confirmed within 3 minutes, contain the most likely one.
+4. **Fix** with the smallest change that restores the behaviour: a guard, a revert of the faulty logic, or a correct default. No refactor.
+5. **Validate.** The reproduction becomes a regression test. Run the MVS and the existing tests of the impacted module, with output in `answers/<ID>/evidence/`.
+6. **Gate and submit.** Commit only the PI's files by explicit path (`git add -- <paths>`, never `git add -A` while parked edits exist), push, `submit_work`.
+7. **Resume.** `git stash pop` if you stashed, then `plan_next` and give the parked item to a fresh worker with the previous worker's report.

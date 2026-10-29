@@ -7,6 +7,7 @@ Spawn subagents only with the provider-native mechanism in this same CLI session
 Use the registered team_repo_scout, team_feature_worker, and team_quality_checker profiles when useful.
 Do not launch another Codex CLI, Claude Code CLI, app-server, or independent CLI process for match work.
 Keep credentials in MCP Helper memory; append required events to the exact progressLogFile.
-Own integration, Git actions, submissions, receipts, and final decisions.
+Own integration, Git actions, submissions, receipts, and final decisions. START_GAME_V4 / RESUME_GAME_V1 authorize commits and ordinary pushes to the assigned branch; never open a git-authorization blocker during active play.
+Let plan_next (EV planner) choose work and report_verification (Submission Authority) gate every submission. Consult company_tool kb_search before the first item.
 Honor pause/end immediately; do not self-respawn or resume.
 """

@@ -80,6 +80,14 @@ function normRepoUrl(u) {
   return String(u ?? '').trim().replace(/\/+$/, '').replace(/\.git$/i, '').toLowerCase();
 }
 
+function normBranch(b) {
+  return String(b ?? '').trim().replace(/^refs\/heads\//, '');
+}
+
+function normFolder(f) {
+  return String(f ?? '').trim().replace(/\\/g, '/').replace(/^\.\//, '').replace(/^\/+|\/+$/g, '');
+}
+
 function samePath(a, b) {
   const na = resolve(a), nb = resolve(b);
   return process.platform === 'win32' ? na.toLowerCase() === nb.toLowerCase() : na === nb;
@@ -229,6 +237,8 @@ export class RuntimeSession {
     for (const e of this.log.readExisting()) {
       if (e.type === 'ORCHESTRATOR_STARTED' && e.playerSessionId === this.log.playerSessionId) this.started = true;
       if (e.type === 'GAME_START_STATUS' && e.status === 'COMPLETED') this.backlogSynced = true;
+      // A replacement orchestrator keeps verified gates: the latest BUILD status in the log counts.
+      if (e.type === 'PREPARATION_STATUS' && e.stage === 'BUILD') this.buildCompleted = e.status === 'COMPLETED';
       if (e.type === 'BACKLOG_STATUS' && e.backlogId) {
         const prev = this.items.get(e.backlogId);
         if (!prev || (STATUS_RANK[e.status] ?? 0) >= (STATUS_RANK[prev.status] ?? 0)) {
@@ -402,9 +412,11 @@ export class RuntimeSession {
     const teamId = this.descriptor?.teamId;
     if (teamId && p.team?.code && String(p.team.code).toLowerCase() !== String(teamId).toLowerCase()) problems.push('team code differs from teamId');
     if (this.repository && p.repo) {
-      if (normRepoUrl(p.repo.url) !== normRepoUrl(this.repository.url)) problems.push('repository url differs');
-      if (p.repo.branch && p.repo.branch !== this.repository.branch) problems.push('branch differs');
-      if (p.repo.folder && p.repo.folder !== this.repository.folder) problems.push('folder differs');
+      // The match view formats these differently from mtm-player (e.g. folder "0TS48DKR/"), so compare normalized values.
+      const show = (a, b) => `view ${JSON.stringify(a)} vs assigned ${JSON.stringify(b)}`;
+      if (normRepoUrl(p.repo.url) !== normRepoUrl(this.repository.url)) problems.push(`repository url differs (${show(p.repo.url, this.repository.url)})`);
+      if (p.repo.branch && normBranch(p.repo.branch) !== normBranch(this.repository.branch)) problems.push(`branch differs (${show(p.repo.branch, this.repository.branch)})`);
+      if (p.repo.folder && normFolder(p.repo.folder) !== normFolder(this.repository.folder)) problems.push(`folder differs (${show(p.repo.folder, this.repository.folder)})`);
     }
     const uuid = p.match?.id;
     if (uuid && UUID_RE.test(uuid)) {
@@ -486,7 +498,12 @@ export class RuntimeSession {
 
   async waitForUpdate({ timeoutMs = 55_000 } = {}) {
     this.requireActive('GAME');
-    const deadline = Date.now() + Math.min(Math.max(Number(timeoutMs) || 0, 1_000), 55_000);
+    // 55s normally; up to 600s when nothing is actionable (every visible item terminal) so the
+    // orchestrator does not burn tokens re-polling between brief waves. Polling stays inside Node.
+    const snapshot = this.brain.snapshot();
+    const allDone = snapshot.length > 0 && snapshot.every((i) => ['SUBMITTED', 'CLOSED', 'FAILED'].includes(i.status));
+    const cap = allDone ? 600_000 : 55_000;
+    const deadline = Date.now() + Math.min(Math.max(Number(timeoutMs) || 0, 1_000), cap);
     const before = this.signature;
     let delay = 0;
     while (Date.now() + delay < deadline) {
@@ -498,8 +515,7 @@ export class RuntimeSession {
       if (view.ok && (this.signature !== before || view.changes.length || urgent)) {
         return { ok: true, changed: true, ...view, deadlines, instruction: 'Call plan_next to re-plan.' };
       }
-      const active = Number(this.projection?.api?.pollActiveMs) || 5_000;
-      delay = view.ok ? Math.min(Math.max(active, 5_000), 30_000) : 10_000;
+      delay = view.ok ? 5_000 : 10_000; // guide cadence: 5s after success, 10s after an error
     }
     return { ok: true, changed: false, timedOut: true, phase: this.phase };
   }
@@ -627,6 +643,10 @@ export class RuntimeSession {
 
     const prev = this.submissions.get(key);
     if (prev?.state === 'ACCEPTED') return { ok: true, alreadyAccepted: true, receiptId: prev.receiptId, revision: prev.revision };
+    const matchStatus = this.projection?.match?.status;
+    if (matchStatus && matchStatus !== 'IN_PROGRESS') {
+      return { ok: false, error: 'MATCH_NOT_ACCEPTING_SUBMISSIONS', matchStatus, instruction: 'Submissions are accepted only while the match is IN_PROGRESS; refresh and wait.' };
+    }
 
     const urls = artifactUrls ?? undefined;
     if (urls && (!Array.isArray(urls) || urls.length > 20 || urls.some((u) => !/^https:\/\//.test(u) || u.length > 2048))) fail('ARTIFACT_URLS_INVALID');
@@ -674,7 +694,9 @@ export class RuntimeSession {
       return { ok: false, outcome: 'REJECTED', error: code ?? `HTTP_${res.status}`, httpStatus: res.status, message: this.http.redact(res.body?.error?.message ?? ''), details: res.body?.error?.details ?? null };
     }
     const b = res.body ?? {};
-    const receiptId = b.receiptId ?? b.receipt?.id ?? b.receipt?.receiptId ?? b.submission?.receiptId ?? b.submissionId ?? b.submission?.id ?? b.id ?? null;
+    // Observed in practice matches: { submission: { id, status: "ACCEPTED" } }; the guide shows { receiptId, status: "RECEIVED" }.
+    const receiptId = (b.submission?.status === 'ACCEPTED' && b.submission?.id)
+      || b.receiptId || b.receipt?.id || b.receipt?.receiptId || b.submission?.receiptId || b.submissionId || b.submission?.id || b.id || null;
     if (!receiptId || !ID_RE.test(String(receiptId)) || String(receiptId).length > 128) {
       this.emit({ type: 'BLOCKER_OPENED', blockerId: 'SUBMIT_RECEIPT_MISSING', backlogId: key, summary: 'Submit returned 2xx without a usable receipt id.' });
       return { ok: false, outcome: 'UNCERTAIN', error: 'RECEIPT_MISSING', clientSubmissionId: id };
@@ -710,6 +732,8 @@ export class RuntimeSession {
       incidents: this.brain.incidents(),
       stuck: this.brain.stuck(),
       newItems: view.changes,
+      kbConsulted: Boolean(this.kbConsulted),
+      ...(this.kbConsulted ? {} : { reminder: 'Company KB not consulted yet: call company_tool kb_search {query:"index"} before implementing the first item.' }),
     };
   }
 
@@ -784,6 +808,42 @@ export class RuntimeSession {
     const out = { ok: true, ...summarize(this.repoKnowledge) };
     if (impactOf) out.impact = impactedFiles(this.repoKnowledge, String(impactOf));
     return out;
+  }
+
+  // Company knowledge (kb_search / get_test_data) through the Game Master match MCP endpoint.
+  // Same origin and team key as Start/Submit; every request is logged REQUESTED → SUCCEEDED/FAILED.
+  async company({ name, arguments: args = {} } = {}) {
+    this.requireActive('GAME');
+    if (!['kb_search', 'get_test_data'].includes(name)) fail('COMPANY_TOOL_NOT_ALLOWED');
+    if (!args || typeof args !== 'object' || Array.isArray(args)) fail('INVALID_ARGUMENTS');
+    if (!this.bearer) fail('BEARER_UNAVAILABLE');
+    const status = this.projection?.match?.status;
+    if (status && status !== 'IN_PROGRESS') fail('MATCH_NOT_IN_PROGRESS', `Match is ${status}`);
+    const url = `${this.apiOrigin}/api/v1/mcp/${encodeURIComponent(this.matchId)}`;
+    const call = (operation, json) => this.apiCall(operation, null, 'POST', url, {
+      json,
+      withCookies: false,
+      headers: {
+        Authorization: `Bearer ${this.bearer}`,
+        Accept: 'application/json, text/event-stream',
+        ...(this.companySession ? { 'Mcp-Session-Id': this.companySession } : {}),
+      },
+    });
+    if (!this.companyReady) {
+      const init = await call('COMPANY_INITIALIZE', { jsonrpc: '2.0', id: 1, method: 'initialize', params: { protocolVersion: '2025-03-26', capabilities: {}, clientInfo: { name: 'fra-team-pack', version: '1.0.0' } } });
+      if (!init.ok || !init.body?.result) return { ok: false, error: 'COMPANY_MCP_UNAVAILABLE', httpStatus: init.status ?? null };
+      this.companySession = init.mcpSessionId ?? null;
+      await call('COMPANY_INITIALIZED', { jsonrpc: '2.0', method: 'notifications/initialized' });
+      this.companyReady = true;
+      this.companyRpcId = 1;
+    }
+    const res = await call('COMPANY_TOOL', { jsonrpc: '2.0', id: ++this.companyRpcId, method: 'tools/call', params: { name, arguments: args } });
+    if (res.status === 404 || res.status === 400) this.companyReady = false; // session expired: re-initialize next time
+    if (!res.ok || !res.body || res.body.error) {
+      return { ok: false, error: 'COMPANY_MCP_ERROR', httpStatus: res.status ?? null, message: this.http.redact(res.body?.error?.message ?? res.error ?? '') };
+    }
+    if (name === 'kb_search') this.kbConsulted = true;
+    return { ok: true, tool: name, result: res.body.result };
   }
 
   // ---------- progress events from the orchestrator ----------
